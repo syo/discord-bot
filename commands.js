@@ -24,6 +24,21 @@ const TEST_COMMAND = {
   type: 1,
 };
 
+// GPT command
+const GPT_COMMAND = {
+  name: 'gpt',
+  description: 'Generate text with GPT',
+  options: [
+    {
+      type: 3,
+      name: 'prompt',
+      description: 'Prompt for GPT',
+      required: true,
+    },
+  ],
+  type: 1,
+};
+
 // Command containing options
 const CHALLENGE_COMMAND = {
   name: 'challenge',
@@ -40,6 +55,6 @@ const CHALLENGE_COMMAND = {
   type: 1,
 };
 
-const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND];
+const ALL_COMMANDS = [TEST_COMMAND, CHALLENGE_COMMAND, GPT_COMMAND];
 
 InstallGlobalCommands(process.env.APP_ID, ALL_COMMANDS);

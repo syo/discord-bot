@@ -9,6 +9,13 @@ import {
 } from 'discord-interactions';
 import { VerifyDiscordRequest, getRandomEmoji, DiscordRequest } from './utils.js';
 import { getShuffledOptions, getResult } from './game.js';
+import { Configuration, OpenAIApi } from 'openai';
+const configuration = new Configuration({
+  organization: process.env.OPENAI_ORG_ID,
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+//const response = await openai.listEngines();
 
 // Create an express app
 const app = express();
@@ -52,6 +59,36 @@ app.post('/interactions', async function (req, res) {
         },
       });
     }
+    
+    // "gpt" command
+    if (name === 'gpt' && id) {
+      const userId = req.body.member.user.id;
+      // User's object choice
+      //const objectName = req.body.data.options[0].value;
+      const prompt = req.body.data.options[0].value;
+
+      const gptResponse = await openai.complete({
+        engine: 'davinci',
+        prompt: prompt,
+        maxTokens: 5,
+        temperature: 0.9,
+        topP: 1,
+        presencePenalty: 0,
+        frequencyPenalty: 0,
+        bestOf: 1,
+        n: 1,
+        stream: false,
+        stop: ['\n', "testing"]
+      });
+
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: 'GPT says: ' + gptResponse.data,
+        },
+      });
+    }
+
     // "challenge" command
     if (name === 'challenge' && id) {
       const userId = req.body.member.user.id;
