@@ -1,10 +1,6 @@
-# Getting Started app for Discord
+# Stub app for Discord
 
-This project contains a basic rock-paper-scissors-style Discord app written in JavaScript, built for the [getting started guide](https://discord.com/developers/docs/getting-started).
-
-![Demo of app](/assets/getting-started-demo.gif?raw=true)
-
-> ✨ A version of this code is also hosted **[on Glitch 🎏](https://glitch.com/~getting-started-discord)** and **[on Replit 🌀](https://replit.com/github/discord/discord-example-app)**
+This project contains a basic Discord app written in JavaScript, built following [getting started guide](https://discord.com/developers/docs/getting-started).
 
 ## Project structure
 Below is a basic overview of the project structure:
@@ -44,7 +40,7 @@ git clone https://github.com/discord/discord-example-app.git
 
 Then navigate to its directory and install dependencies:
 ```
-cd discord-example-app
+cd discord-bot
 npm install
 ```
 ### Get app credentials
