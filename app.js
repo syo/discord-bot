@@ -15,7 +15,7 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-//const response = await openai.listEngines();
+
 
 // Create an express app
 const app = express();
@@ -62,31 +62,29 @@ app.post('/interactions', async function (req, res) {
     
     // "gpt" command
     if (name === 'gpt' && id) {
-      const userId = req.body.member.user.id;
-      // User's object choice
-      //const objectName = req.body.data.options[0].value;
       const prompt = req.body.data.options[0].value;
+      
+      try {
+        const gptResponse = await openai.createCompletion({
+          model: 'text-davinci-003',
+          prompt: prompt,
+          max_tokens: 64,
+        });
 
-      const gptResponse = await openai.complete({
-        engine: 'davinci',
-        prompt: prompt,
-        maxTokens: 5,
-        temperature: 0.9,
-        topP: 1,
-        presencePenalty: 0,
-        frequencyPenalty: 0,
-        bestOf: 1,
-        n: 1,
-        stream: false,
-        stop: ['\n', "testing"]
-      });
-
-      return res.send({
-        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-        data: {
-          content: 'GPT says: ' + gptResponse.data,
-        },
-      });
+        return res.send({
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: {
+            content: gptResponse.data.choices[0].text,
+          },
+        });
+      } catch (err) {
+        return res.send({
+          type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+          data: {
+            content: 'Error calling openai: ' + JSON.stringify(err.response.data),
+          },
+        });
+      }
     }
 
     // "challenge" command
