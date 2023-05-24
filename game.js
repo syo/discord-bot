@@ -54,7 +54,7 @@ const RPSChoices = {
     computer: 'cuts cord of',
     virus: 'cuts DNA of',
   },
-  virus: {
+  visrus: {
     description: 'genetic mutation, malware, or something inbetween',
     cowboy: 'infects',
     computer: 'corrupts',
